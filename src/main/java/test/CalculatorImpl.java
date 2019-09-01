@@ -1,6 +1,6 @@
 package test;
 
-public class AddImplementation implements Calculator {
+public class CalculatorImpl implements Calculator {
 
     @Override
     public int add(int a, int b) {
