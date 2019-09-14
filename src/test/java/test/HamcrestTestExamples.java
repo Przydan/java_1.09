@@ -1,5 +1,8 @@
 package test;
 
+import org.hamcrest.FeatureMatcher;
+import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -30,15 +33,14 @@ public class HamcrestTestExamples {
     public void checkIfTabContainsSpecifiedValues() {
         Integer[] actual = {5, 7, 2};
 
-        assertThat(actual, arrayContaining(5,7,2));
+        assertThat(actual, arrayContaining(5, 7, 2));
     }
 
     @Test
     public void checkIfTabContainsSpecifiedValuesInNonSpecifiedOrder() {
         Integer[] tab = {7, 5, 2};
 
-        assertThat(tab, arrayContainingInAnyOrder(5,7,2));
-
+        assertThat(tab, arrayContainingInAnyOrder(5, 7, 2));
     }
 
     @Test
@@ -49,5 +51,42 @@ public class HamcrestTestExamples {
         assertThat(list, hasSize(3));
 
     }
+
+    @Test
+    public void shouldBeginWithA() {
+        String testedValue = "aString";
+        assertThat(testedValue, beginsWith(is('a')));
+    }
+
+    public static Matcher<String> beginsWith(Matcher<? super Character> matcher) {
+        return new FeatureMatcher<String, Character>(matcher, "a String that begins with", "first letter") {
+            @Override
+            protected Character featureValueOf(String actual) {
+                return actual.charAt(0);
+            }
+        };
+    }
+
+    @Test
+    public void checkLengthString() {
+        String testValue1 = "ala";
+        String testValue2 = "stomil";
+        String testValue3 = "antygrawitacja";
+
+        assertThat(testValue1, stringHasLength(is(3)));
+        assertThat(testValue2, stringHasLength(is(6)));
+        assertThat(testValue3, stringHasLength(is(14)));
+    }
+
+    public static Matcher<String> stringHasLength(Matcher<? super Integer> matcher) {
+        return new FeatureMatcher<String, Integer>(matcher, "String has expected length equals ",
+                "Not expected length") {
+            @Override
+            protected Integer featureValueOf(String actual) {
+                return actual.length();
+            }
+        };
+    }
+
 
 }
